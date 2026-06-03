@@ -15,7 +15,7 @@ const STAGES = [
 ];
 
 const ORIGINAL_DATE_TEXT = "公開：2026年06月03日";
-const STAGE_8_DESCRIPTION = "“ねかせ”と入力して、資産を増やせ";
+const STAGE_8_DESCRIPTION = "正解は、“かねかせぎ”";
 
 let currentStageIndex = 0;
 let unlockedMaxIndex = 0;
