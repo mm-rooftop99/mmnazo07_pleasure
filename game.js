@@ -549,7 +549,7 @@ function judgeStage3(input) {
   const raw = input.trim();
 
   if (["韓国", "かんこく", "カンコク"].includes(raw)) {
-    showMessage("5の答えは”かいらく”だ", messageColor);
+    showMessage("6の答えは”かいらく”だ", messageColor);
     return;
   }
 
