@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Pleasure【mmの謎解き#7】</title>
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app" class="app">
+    <header>
+      <h1 class="title">Pleasure【mmの謎解き#7】</h1>
+
+      <div class="meta">
+        <div>想定クリア時間：90min</div>
+        <div id="dateMeta">公開：2026年06月03日</div>
+        <div>制作：mm（@mm_syumida）#mmの謎解き</div>
+      </div>
+    </header>
+
+    <nav id="tabBar" class="tab-bar"></nav>
+
+    <main>
+      <h2 id="stageTitle" class="stage-title"></h2>
+
+      <div id="stageDescription" class="stage-description"></div>
+
+      <div class="image-wrap">
+        <img id="nazoImage" class="nazo-image" src="" alt="謎画像" />
+      </div>
+
+      <div id="answerArea" class="answer-area">
+        <input
+          id="answerInput"
+          class="answer-input"
+          type="text"
+          placeholder="答えを入力"
+          autocomplete="off"
+        />
+        <button id="submitButton" class="submit-button" type="button">送信</button>
+      </div>
+
+      <div id="nextArea" class="next-area">
+        <button id="nextButton" class="next-button" type="button">次へ</button>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <button id="resetButton" class="reset-button" type="button">
+        進行状況をリセット
+      </button>
+    </main>
+  </div>
+
+  <div id="clearOverlay" class="clear-overlay">
+    <div class="clear-box">
+      <button id="closeClear" class="close-button" type="button">×</button>
+
+      <h2>CLEAR！</h2>
+
+      <div class="clear-title">Pleasure【mmの謎解き#7】</div>
+
+      <a
+        id="postButton"
+        class="post-button"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        POST
+      </a>
+    </div>
+  </div>
+
+  <div id="resetConfirmOverlay" class="confirm-overlay">
+    <div class="confirm-box">
+      <p class="confirm-text">進行状況をリセットしますか？</p>
+
+      <div class="confirm-actions">
+        <button id="confirmResetYes" class="confirm-button yes-button" type="button">
+          はい
+        </button>
+        <button id="confirmResetNo" class="confirm-button no-button" type="button">
+          いいえ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./game.js"></script>
+</body>
+</html>
