@@ -1,5 +1,5 @@
 function slide(number) {
-  return "./nazo07/スライド" + number + ".jpg";
+  return "./nazo07/スライド" + number + ".JPG";
 }
 
 const STAGES = [
