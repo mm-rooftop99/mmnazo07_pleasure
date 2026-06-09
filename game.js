@@ -1,5 +1,5 @@
 function slide(number) {
-  return "./nazo07/スライド" + number + ".JPG";
+  return "./nazo07/スライド" + number + ".jpg";
 }
 
 const STAGES = [
@@ -16,6 +16,7 @@ const STAGES = [
 
 const ORIGINAL_DATE_TEXT = "公開：2026年06月03日";
 const STAGE_8_DESCRIPTION = "正解は、“かねかせぎ”";
+const TITLE_CORE = "mmの謎解き#7";
 
 let currentStageIndex = 0;
 let unlockedMaxIndex = 0;
@@ -25,6 +26,8 @@ let seikaiStreak = 0;
 let cleared = false;
 
 const app = document.getElementById("app");
+const mainTitle = document.getElementById("mainTitle");
+const clearTitle = document.getElementById("clearTitle");
 const tabBar = document.getElementById("tabBar");
 const stageTitle = document.getElementById("stageTitle");
 const stageDescription = document.getElementById("stageDescription");
@@ -51,6 +54,7 @@ const COLOR_MAP = {
   "黒": "#000000",
   "くろ": "#000000",
   "クロ": "#000000",
+  "く": "#000000",
 
   "white": "#ffffff",
   "ホワイト": "#ffffff",
@@ -58,6 +62,7 @@ const COLOR_MAP = {
   "白": "#ffffff",
   "しろ": "#ffffff",
   "シロ": "#ffffff",
+  "し": "#ffffff",
 
   "red": "#ff0000",
   "レッド": "#ff0000",
@@ -65,6 +70,7 @@ const COLOR_MAP = {
   "赤": "#ff0000",
   "あか": "#ff0000",
   "アカ": "#ff0000",
+  "あ": "#ff0000",
 
   "blue": "#0000ff",
   "ブルー": "#0000ff",
@@ -88,6 +94,7 @@ const COLOR_MAP = {
   "緑": "#008000",
   "みどり": "#008000",
   "ミドリ": "#008000",
+  "み": "#008000",
 
   "purple": "#800080",
   "violet": "#800080",
@@ -98,6 +105,7 @@ const COLOR_MAP = {
   "紫": "#800080",
   "むらさき": "#800080",
   "ムラサキ": "#800080",
+  "む": "#800080",
 
   "orange": "#ffa500",
   "オレンジ": "#ffa500",
@@ -106,6 +114,7 @@ const COLOR_MAP = {
   "だいだい": "#ffa500",
   "橙色": "#ffa500",
   "だいだいいろ": "#ffa500",
+  "お": "#ffa500",
 
   "pink": "#ffc0cb",
   "ピンク": "#ffc0cb",
@@ -196,7 +205,6 @@ const COLOR_MAP = {
   "藍": "#4b0082",
   "藍色": "#4b0082",
   "あいいろ": "#4b0082",
-  "あい": "#4b0082",
 
   "ivory": "#fffff0",
   "アイボリー": "#fffff0",
@@ -238,15 +246,15 @@ const COLOR_MAP = {
 };
 
 const BRACKET_MAP = {
-  "やま": { open: "〈", close: "〉", type: "yama" },
-  "ヤマ": { open: "〈", close: "〉", type: "yama" },
-  "山": { open: "〈", close: "〉", type: "yama" },
-  "山括弧": { open: "〈", close: "〉", type: "yama" },
-  "やまかっこ": { open: "〈", close: "〉", type: "yama" },
-  "ヤマカッコ": { open: "〈", close: "〉", type: "yama" },
-  "山かっこ": { open: "〈", close: "〉", type: "yama" },
-  "山カッコ": { open: "〈", close: "〉", type: "yama" },
-  "山型括弧": { open: "〈", close: "〉", type: "yama" },
+  "やま": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "ヤマ": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "山": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "山括弧": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "やまかっこ": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "ヤマカッコ": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "山かっこ": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "山カッコ": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
+  "山型括弧": { open: "〈", close: "〉", titleOpen: "＜", titleClose: "＞", type: "yama" },
 
   "まる": { open: "（", close: "）", type: "maru" },
   "マル": { open: "（", close: "）", type: "maru" },
@@ -345,6 +353,26 @@ function toHalfWidthDigits(value) {
   });
 }
 
+function getTitleOpen() {
+  return bracketPair.titleOpen || bracketPair.open;
+}
+
+function getTitleClose() {
+  return bracketPair.titleClose || bracketPair.close;
+}
+
+function getCurrentTitleText() {
+  return "Pleasure" + getTitleOpen() + TITLE_CORE + getTitleClose();
+}
+
+function updateTitleText() {
+  const titleText = getCurrentTitleText();
+
+  document.title = titleText;
+  mainTitle.textContent = titleText;
+  clearTitle.textContent = titleText;
+}
+
 function saveState() {
   const state = {
     currentStageIndex,
@@ -370,7 +398,13 @@ function loadState() {
     currentStageIndex = state.currentStageIndex ?? 0;
     unlockedMaxIndex = state.unlockedMaxIndex ?? 0;
     messageColor = state.messageColor ?? "#ffffff";
-    bracketPair = state.bracketPair ?? { open: "〈", close: "〉", type: "yama" };
+    bracketPair = state.bracketPair ?? {
+      open: "〈",
+      close: "〉",
+      titleOpen: "＜",
+      titleClose: "＞",
+      type: "yama"
+    };
     seikaiStreak = state.seikaiStreak ?? 0;
     cleared = state.cleared ?? false;
     dateMeta.textContent = state.dateText ?? ORIGINAL_DATE_TEXT;
@@ -409,6 +443,7 @@ function render() {
   const stage = STAGES[currentStageIndex];
 
   renderTabs();
+  updateTitleText();
 
   stageTitle.textContent = stage.label;
   nazoImage.src = slide(stage.imageNumber);
@@ -491,10 +526,11 @@ function currentDateIs20010910() {
 function showClear() {
   cleared = true;
   dateMeta.textContent = ORIGINAL_DATE_TEXT;
+  updateTitleText();
 
   const siteUrl = location.href;
   const postText =
-    "Pleasure【mmの謎解き#7】をクリアしました！\n" +
+    getCurrentTitleText() + "をクリアしました！\n" +
     "#mmの謎解き #Pleasure_mm謎\n" +
     siteUrl;
 
@@ -514,6 +550,7 @@ function judgeStage1(input) {
   if (found) {
     bracketPair = found;
     unlockNext();
+    updateTitleText();
     showMessage("OK", messageColor);
     return;
   }
@@ -549,7 +586,7 @@ function judgeStage3(input) {
   const raw = input.trim();
 
   if (["韓国", "かんこく", "カンコク"].includes(raw)) {
-    showMessage("6の答えは”かいらく”だ", messageColor);
+    showMessage("5の答えは”かいらく”だ", messageColor);
     return;
   }
 
@@ -659,7 +696,13 @@ function executeReset() {
   currentStageIndex = 0;
   unlockedMaxIndex = 0;
   messageColor = "#ffffff";
-  bracketPair = { open: "〈", close: "〉", type: "yama" };
+  bracketPair = {
+    open: "〈",
+    close: "〉",
+    titleOpen: "＜",
+    titleClose: "＞",
+    type: "yama"
+  };
   seikaiStreak = 0;
   cleared = false;
 
